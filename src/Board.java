@@ -14,6 +14,8 @@ public class Board {
 	private int[][] ladders;
 
 	private Map<Player, Integer> playerPositions;
+	
+	private String currentBoardState = "";
 
 	/**
 	 * @param players the player who are in this game.
@@ -36,17 +38,16 @@ public class Board {
 	 * @param value dice value
 	 * @return True if current player reach WINNING NUM
 	 */
-	public boolean movePlayer(Player player, int value){
+	public void movePlayer(Player player, int value){
 
 		int prePosition = playerPositions.get(player);
 		int newPosition = (prePosition + value) >= WINNING_NUM ? WINNING_NUM : (prePosition + value);
 		
-		String message = player.getName() + ": " + prePosition + " --> " + newPosition;
+		this.currentBoardState = player.getName() + ": " + prePosition + " --> " + newPosition;
 
 		if (newPosition == WINNING_NUM){
-			System.out.println(message);
 			playerPositions.put(player, WINNING_NUM);
-			return true;
+			return;
 		}
 		
 		 
@@ -54,7 +55,7 @@ public class Board {
 		for (int i = 0; i < CHUTE_NUM; i++){
 			if (chutes[i][0] == newPosition){
 				newPosition = chutes[i][1];
-				message += " --CHUTE--> " + newPosition;
+				this.currentBoardState += " --CHUTE--> " + newPosition;
 				break;
 			}
 		}
@@ -63,16 +64,30 @@ public class Board {
 		for (int i = 0; i < LADDERS_NUM; i++){
 			if (ladders[i][0] == newPosition){
 				newPosition = ladders[i][1];
-				message += " --LADDER--> " + newPosition;
+				this.currentBoardState += " --LADDER--> " + newPosition;
 				break;
 			}
 		}
 
-		System.out.println(message);
 		playerPositions.put(player, newPosition);
-		return false;
-		
-
+		return;
+	}
+	
+	
+	/**
+	 * check if the given player has reached the end
+	 * @param player
+	 */
+	public boolean isPlayerDone(Player player) {
+		return 	 playerPositions.get(player) == WINNING_NUM;
+	}
+	
+	
+	/**
+	 * return current state of the board. Gets updated after a player is moved
+	 */
+	public String getCurrentBoardState() {
+		return this.currentBoardState;
 	}
 
 	private void initBoard(){
