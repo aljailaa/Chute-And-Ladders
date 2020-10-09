@@ -1,13 +1,13 @@
 import java.util.Random;
 
-public class Die {
+public class Dice {
 
 	private Random rand;
 	
 	/**
 	 * Initialize the fields
 	 */
-	public Die(){
+	public Dice(){
 		rand = new Random();
 	}
 	

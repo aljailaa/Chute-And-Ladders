@@ -9,8 +9,8 @@ public class Player {
 	/**
 	 * @return What the die returns for this use
 	 */
-	public int takeTurn(Die die) {	
-		return die.roll();
+	public int rollDice(Dice dice) {	
+		return dice.roll();
 	}
 
 	public String getName() {
